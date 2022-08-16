@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Todo from "../Todo"
 import { BrowserRouter } from "react-router-dom"
-
+//intregration test need to be on the parent component
 const MockTodo = () => {
     return (
         <BrowserRouter>
@@ -32,8 +32,8 @@ it('should render multiple items', () => {
     render(
         <MockTodo />
     );
-    addTask(["Go Grocery Shopping", "Go Grocery Shopping", "Go Grocery Shopping"])
-    const divElements = screen.queryAllByText(/Go Grocery Shopping/i);
+    addTask(["Go Grocery Shopping", "Pet my Cat", "Feed the bird"])
+    const divElements = screen.getAllByTestId("task-container");
     expect(divElements.length).toBe(3)
 });
 
@@ -43,6 +43,7 @@ it('task should not have complete class when initally rendered', () => {
     );
     addTask(["Go Grocery Shopping"])
     const divElement = screen.getByText(/Go Grocery Shopping/i);
+    //to not have todo-item-active
     expect(divElement).not.toHaveClass("todo-item-active")
 });
 

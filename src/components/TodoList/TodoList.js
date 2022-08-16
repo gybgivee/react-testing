@@ -8,6 +8,7 @@ function TodoList({
 
     const updateTask = (id) => {
         let updatedTasks = todos.map((todo) => {
+         
             if(todo.id === id) {
                 todo.completed = !todo.completed;
                 return todo
@@ -19,28 +20,26 @@ function TodoList({
     }
 
     const calcNumberOfIncompletedTasks = () => {
-        let count = 0;
-        todos.forEach(todo => {
-            if(!todo.completed) count++
-        })
+        const count = todos.reduce((total, todo) => total + todo.completed, 0);
         return count
     }
 
     return (
         <div className="todolist-container">
             <div className="todos-container">
-                <div>
+                <>
                     {
                         todos.map((todo, index) => (
-                            <div 
+                            <div  key={index}
                                 className={`todo-item ${todo.completed && "todo-item-active"}`} 
                                 onClick={() => updateTask(todo.id)}
+                                data-testid="task-container"
                             >
                                 {todo.task}
                             </div>
                         ))
                     }
-                </div>
+                </>
             </div>
             <div>
                 <TodoFooter 
