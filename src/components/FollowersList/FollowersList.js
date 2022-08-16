@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import "./FollowersList.css"
-import axios from "axios"
+import "./FollowersList.css";
+import axios from "axios"; 
 import { Link } from 'react-router-dom';
 
 export default function FollowersList() {
 
     const [followers, setFollowers] = useState([]);
 
+    const fetchFollowers = async () => {
+/*
+        fetch(`https://randomuser.me/api/?results=5`)
+            .then((res) => res.json())
+            .then(({ results }) => {
+                setFollowers(results)
+            })
+            .catch(err => console.log('fail to fetch', err));
+*/
+
+            const {data} = await axios.get('https://randomuser.me/api/?results=5')
+            setFollowers(data.results);
+    }
+
     useEffect(() => {
-
-        const fetchFollowers = async () => {
-            const { data } = await axios.get("https://randomuser.me/api/?results=5")
-            setFollowers(data.results)
-        }
-
         fetchFollowers()
     }, []);
 
@@ -21,10 +29,10 @@ export default function FollowersList() {
 
     return (
         <div className="followerslist-container">
-            <div>
-                {followers.map((follower, index) => (
-                    <div className="follower-item" data-testid={`follower-item-${index}`}>
-                        <img src={follower.picture.large}/>
+            <>
+                {followers && followers.map((follower, index) => (
+                    <div key={index} className="follower-item" data-testid={`follower-item-${index}`}>
+                        <img src={follower.picture.large} />
                         <div className="followers-details">
                             <div className="follower-item-name">
                                 <h4>{follower.name.first}</h4> <h4>{follower.name.last}</h4>
@@ -33,10 +41,11 @@ export default function FollowersList() {
                         </div>
                     </div>
                 ))}
-            </div>
+            </>
             <div className="todo-footer">
                 <Link to="/">Go Back</Link>
             </div>
         </div>
     )
 }
+

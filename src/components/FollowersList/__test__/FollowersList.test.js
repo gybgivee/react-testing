@@ -18,7 +18,7 @@ describe("FollowersList", () => {
     })
 
     // beforeAll(() => {
-    //     console.log("RUNS ONCE BEFORE ALL TESTS")
+    //     console.log("RUNS ONCE => BEFORE ALL TESTS")
     // })
 
     // afterEach(() => {
@@ -26,7 +26,7 @@ describe("FollowersList", () => {
     // })
 
     // afterAll(() => {
-    //     console.log("RUNS ONCE AFTER ALL TESTS")
+    //     console.log("RUNS ONCE => AFTER ALL TESTS")
     // })
 
     it('should fetch and render input element', async () => {
@@ -37,12 +37,12 @@ describe("FollowersList", () => {
         expect(followerDivElement).toBeInTheDocument();
     });
     
-    it('should fetch and render input element', async () => {
+    it('should fetch and render All input element', async () => {
         render(
             <MockFollowersList />
         );
     
-        const followerDivElement = await screen.findByTestId(`follower-item-0`)
-        expect(followerDivElement).toBeInTheDocument();
+        const followerDivElements = await screen.findAllByTestId(/follower-item/i)
+        expect(followerDivElements.length).toBe(5);
     });
 })
